@@ -125,7 +125,7 @@ public class RenewMasterydegree {
     }
     public RenewMasterydegree() {
     }
-    public void renew(ArrayList<String> recommendlist,Map<String,Double>kgrate) {
+    public Map<String,Double> renew(ArrayList<String> recommendlist,Map<String,Double>concepterate) {
     	RenewMasterydegree  graph = new RenewMasterydegree(11);
     	//double average=graph.getAverage(kgrate); //原数据平均值
     //	double standarderror=graph.getStandardDevition(kgrate, average);
@@ -141,12 +141,13 @@ public class RenewMasterydegree {
                {INF,INF,INF,INF,INF,INF,1,INF,1,INF,INF},
                {INF,INF,INF,INF,INF,1,INF,1,INF,1,INF},
                {INF,INF,INF,INF,1,INF,INF,INF,1,INF,1},
-               {INF,1,INF,INF,INF,INF,INF,INF,INF,1,INF},
+               {INF,1,INF,INF,INF,INF,INF,INF,INF,1,INF},   //知识图谱
                {INF,INF,INF,INF,INF,INF,INF,INF,INF,INF,1}};   
     	HashMap<String,Integer> knowledgepoint=new HashMap<String,Integer>();
     	HashMap<Integer,String> knowledgepointtravse=new HashMap<Integer,String>();
-    	
-    	
+    	Map<String,Double>kgrate=new HashMap<String,Double>();
+    
+    	kgrate=concepterate;
     	knowledgepoint.put("函数依赖", 8);  knowledgepointtravse.put(8,"函数依赖");
     	knowledgepoint.put("部分函数依赖",10); knowledgepointtravse.put(10,"部分函数依赖");
     	knowledgepoint.put("传递函数依赖",6); knowledgepointtravse.put(6,"传递函数依赖");
@@ -158,8 +159,11 @@ public class RenewMasterydegree {
     	knowledgepoint.put("码",9); knowledgepointtravse.put(9,"码");
     	knowledgepoint.put("主属性",5); knowledgepointtravse.put(5,"主属性");
     	knowledgepoint.put("非主属性",11);knowledgepointtravse.put(11,"非主属性");
-    	
-        
+    	for(int i=1;i<=11;i++)
+        {
+           	kgrate.put(knowledgepointtravse.get(i), concepterate.get(knowledgepointtravse.get(i)));
+        }
+       // System.out.println("123"+kgrate);
 
         for(int i=0;i<recommendlist.size();i++)
         {
@@ -171,15 +175,15 @@ public class RenewMasterydegree {
         		 String end=knowledgepointtravse.get(j);
         		 List<Integer> list = graph.result;
         		 dist=graph.dist[begin][j-1];
-        		 System.out.println("KGrate="+KGrate+" "+kgrate.toString()+" kgrate(j)="+kgrate.get(end)+" end="+end);
+        		 //System.out.println("KGrate="+KGrate+" "+kgrate.toString()+" kgrate(j)="+kgrate.get(end)+" end="+end);
         		 
         		 KGrate=KGrate+ kgrate.get(end)*( Math.exp( -(dist*dist)/ (2 * sigma * sigma) ) );       //反馈函数/ Math.sqrt(2 * Math.PI * sigma * sigma)
         		 kgrate.put(recommendlist.get(i), KGrate);
-        		 System.out.println("KGrate="+KGrate);
+        		// System.out.println("KGrate="+KGrate);
         		 double max=getMax(kgrate);
         	     double min=getMin(kgrate);
         		 KGrate=((double)(KGrate-min))/(float)(max-min);
-        		 System.out.println("max="+max+" min="+min+" KGrate2="+KGrate);
+        		// System.out.println("max="+max+" min="+min+" KGrate2="+KGrate);
         		 //KGrate=KGrate+KGtrate*(1/())
         	}
         	//KGrate=(KGrate-average)/standarderror;
@@ -187,17 +191,18 @@ public class RenewMasterydegree {
             kgrate.put(recommendlist.get(i), KGrate);
             //System.out.println(kgrate.toString());
         }
-        System.out.println(kgrate.toString());
-        double max=getMax(kgrate);
-        double min=getMin(kgrate);
-        System.out.println("min="+min+" max="+max);
-        for(int i=1;i<=11;i++)
-        {
-        	double KGrate=kgrate.get(knowledgepointtravse.get(i));
-        	KGrate=(KGrate-min)/(max-min);
-        	kgrate.put(knowledgepointtravse.get(i), KGrate);
-        }
-        System.out.println(kgrate.toString());
+       // System.out.println(kgrate.toString());
+//        double max=getMax(kgrate);
+//        double min=getMin(kgrate);
+//        System.out.println("min="+min+" max="+max);
+//        for(int i=1;i<=11;i++)
+//        {
+//        	double KGrate=kgrate.get(knowledgepointtravse.get(i));
+//        	KGrate=(KGrate-min)/(max-min);
+//        	kgrate.put(knowledgepointtravse.get(i), KGrate);
+//        }
+//        System.out.println(kgrate.toString());
+        return kgrate;
 //       
 //        System.out.println(begin + " to " + end + ",the cheapest path is:");
 //        System.out.println(list.toString());

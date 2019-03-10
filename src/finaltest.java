@@ -40,7 +40,7 @@ public class finaltest {
 	static Map<String,Double>finalrecommend=new HashMap<String,Double>();
 	static Map<String,Integer>recommends=new HashMap<String,Integer>();
 	static Map<String,Double>finalrecommends=new HashMap<String,Double>();
-	static Map<String,Double>conceptsrate=new HashMap<String,Double>();
+	
 	static Map<String,Double>c=new HashMap<String,Double>();
 	static ArrayList<String>result=new ArrayList<String>();
 	static ArrayList<Double>resultrate=new ArrayList<Double>();
@@ -48,6 +48,7 @@ public class finaltest {
 	static String concepts[]={"1NF","2NF","3NF","BCNF","主属性","传递函数依赖","决定因素","函数依赖","码","部分函数依赖","非主属性"};
 	static String filenames[]=new String[12];
     public static void main(String[] args) throws Exception {
+    	Map<String,Double>conceptsrate=new HashMap<String,Double>();
         String[] attrNames = new String[] {"time", "lookbacktime","answertrace","collect"};
     	// String[] attrNames = new String[] {"outlook","temperature","humidity","play"};
         // 读取样本集
@@ -140,20 +141,52 @@ public class finaltest {
     	 }
     	
      }
-     System.out.println("1234"+result.toString());//不掌握知识点
-     RenewMasterydegree renew=new RenewMasterydegree();
-     ArrayList<String>testrenew=new ArrayList<String>();
-     testrenew.add("BCNF");
-     //testrenew.add("非主属性");
-     testrenew.add("传递函数依赖");
-     testrenew.add("码");
-     testrenew.add("3NF");
-     testrenew.add("部分函数依赖");
-     testrenew.add("决定因素");
-     testrenew.add("2NF");
-     System.out.println("12345"+testrenew.toString());
-    // renew.renew(result,conceptsrate);
-     renew.renew(testrenew, conceptsrate);
+     
+       System.out.println("1234"+result.toString());//不掌握知识点
+       RenewMasterydegree renew=new RenewMasterydegree();
+       HashMap<Integer,String> kg=new HashMap<Integer,String>();
+       kg.put(8,"函数依赖");
+       kg.put(10,"部分函数依赖");
+       kg.put(6,"传递函数依赖");
+       kg.put(1,"1NF");
+       kg.put(2,"2NF");
+       kg.put(3,"3NF");
+       kg.put(4,"BCNF");
+       kg.put(7,"决定因素");
+       kg.put(9,"码");
+       kg.put(5,"主属性");
+       kg.put(11,"非主属性");
+       Map<String,Double> kgrate=new HashMap<String,Double>();
+       System.out.println("原掌握程度 "+conceptsrate);//不掌握知识点
+       Map<String,Double>conceptsrate_o=new HashMap<String,Double>();
+       for(int z=1;z<=11;z++)
+       {
+    	   conceptsrate_o.put(kg.get(z), conceptsrate.get(kg.get(z)));
+       }
+       ArrayList<String>testrenew=new ArrayList<String>();
+       testrenew.add("函数依赖");
+       testrenew.add("部分函数依赖");
+       testrenew.add("传递函数依赖");
+       testrenew.add("3NF");
+       testrenew.add("BCNF");
+       testrenew.add("码");
+       testrenew.add("非主属性");
+       kgrate=renew.renew(result,conceptsrate);
+       System.out.println("后掌握程度 "+kgrate);
+       //System.out.println("345 "+conceptsrate_o);//不掌握知识点
+       HashMap<String,Double>rise=new HashMap<String,Double>();
+   		for(int z=1;z<=11;z++)
+   		{
+   			//System.out.println("kgrate.get(kg.get(z)) "+kgrate.get(kg.get(z))+" conceptsrate.get(kg.get(z)) "+conceptsrate_o.get(kg.get(z)));
+   			double riserate=(kgrate.get(kg.get(z))-conceptsrate_o.get(kg.get(z)))/conceptsrate_o.get(kg.get(z));
+   			rise.put(kg.get(z), riserate);
+   		}
+   		System.out.println(rise);
+   	
+
+//     System.out.println("12345"+testrenew.toString());
+
+//     renew.renew(testrenew, conceptsrate);
     }
     private static Map<String,Double> ss(Map<String,Double>c)
     {
@@ -176,14 +209,14 @@ public class finaltest {
     }
 	private static void Testnewdata(String[] attrNames, Object decisionTree) throws FileNotFoundException {
 		//读入测试集
-		 File file = new File("E:/知识图谱推荐/实验结果/1336"); 
+		 File file = new File("E:/知识图谱推荐/实验结果/1338"); 
 		 String[] flist = file.list();
 		int correct=0;
 		 HashMap<String, Map<String, Integer>> allNormalTF = new HashMap<String, Map<String,Integer>>();
 		 for(int j=0;j<flist.length;j++)
 		 {
 			 correct=0;
-			  String filename="E:/知识图谱推荐/实验结果/1336/" + flist[j];
+			  String filename="E:/知识图谱推荐/实验结果/1338/" + flist[j];
 			  filenames[j]=flist[j];
 			  System.out.println(filename);
 		      Object[][] TestData=gettestdata(filename);
