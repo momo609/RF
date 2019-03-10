@@ -142,7 +142,7 @@ public class finaltest {
     	
      }
      
-       System.out.println("1234"+result.toString());//不掌握知识点
+       System.out.println("推荐顺序 "+result.toString());//不掌握知识点
        RenewMasterydegree renew=new RenewMasterydegree();
        HashMap<Integer,String> kg=new HashMap<Integer,String>();
        kg.put(8,"函数依赖");
@@ -181,7 +181,7 @@ public class finaltest {
    			double riserate=(kgrate.get(kg.get(z))-conceptsrate_o.get(kg.get(z)))/conceptsrate_o.get(kg.get(z));
    			rise.put(kg.get(z), riserate);
    		}
-   		System.out.println(rise);
+   		System.out.println("增长率 "+rise);
    	
 
 //     System.out.println("12345"+testrenew.toString());
@@ -209,14 +209,14 @@ public class finaltest {
     }
 	private static void Testnewdata(String[] attrNames, Object decisionTree) throws FileNotFoundException {
 		//读入测试集
-		 File file = new File("E:/知识图谱推荐/实验结果/1338"); 
+		 File file = new File("E:/知识图谱推荐/实验结果/1339"); 
 		 String[] flist = file.list();
 		int correct=0;
 		 HashMap<String, Map<String, Integer>> allNormalTF = new HashMap<String, Map<String,Integer>>();
 		 for(int j=0;j<flist.length;j++)
 		 {
 			 correct=0;
-			  String filename="E:/知识图谱推荐/实验结果/1338/" + flist[j];
+			  String filename="E:/知识图谱推荐/实验结果/1339/" + flist[j];
 			  filenames[j]=flist[j];
 			  System.out.println(filename);
 		      Object[][] TestData=gettestdata(filename);

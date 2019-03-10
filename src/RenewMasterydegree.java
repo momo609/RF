@@ -159,10 +159,11 @@ public class RenewMasterydegree {
     	knowledgepoint.put("码",9); knowledgepointtravse.put(9,"码");
     	knowledgepoint.put("主属性",5); knowledgepointtravse.put(5,"主属性");
     	knowledgepoint.put("非主属性",11);knowledgepointtravse.put(11,"非主属性");
-    	for(int i=1;i<=11;i++)
-        {
-           	kgrate.put(knowledgepointtravse.get(i), concepterate.get(knowledgepointtravse.get(i)));
-        }
+//    	for(int i=1;i<=11;i++)
+//        {
+//           	kgrate.put(knowledgepointtravse.get(i), concepterate.get(knowledgepointtravse.get(i)));
+//            //System.out.println("123"+kgrate);
+//        }
        // System.out.println("123"+kgrate);
 
         for(int i=0;i<recommendlist.size();i++)
@@ -177,14 +178,13 @@ public class RenewMasterydegree {
         		 dist=graph.dist[begin][j-1];
         		 //System.out.println("KGrate="+KGrate+" "+kgrate.toString()+" kgrate(j)="+kgrate.get(end)+" end="+end);
         		 
-        		 KGrate=KGrate+ kgrate.get(end)*( Math.exp( -(dist*dist)/ (2 * sigma * sigma) ) );       //反馈函数/ Math.sqrt(2 * Math.PI * sigma * sigma)
-        		 kgrate.put(recommendlist.get(i), KGrate);
-        		// System.out.println("KGrate="+KGrate);
-        		 double max=getMax(kgrate);
-        	     double min=getMin(kgrate);
-        		 KGrate=((double)(KGrate-min))/(float)(max-min);
-        		// System.out.println("max="+max+" min="+min+" KGrate2="+KGrate);
-        		 //KGrate=KGrate+KGtrate*(1/())
+//        		 KGrate=KGrate+ kgrate.get(end)*( Math.exp( -(dist*dist)/ (2 * sigma * sigma) ) );       //反馈函数/ Math.sqrt(2 * Math.PI * sigma * sigma)   //KGrate=KGrate+KGtrate*(1/())
+        		 KGrate=KGrate+ ( Math.exp( -(dist*dist)/ (2 * sigma * sigma) ) );
+//        		 kgrate.put(recommendlist.get(i), KGrate);
+//        		 double max=getMax(kgrate);
+//        	     double min=getMin(kgrate);
+//        		 KGrate=((double)(KGrate-min))/(float)(max-min);
+
         	}
         	//KGrate=(KGrate-average)/standarderror;
         	
