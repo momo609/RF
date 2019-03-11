@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  
 public class finaltest {
 
@@ -182,12 +189,65 @@ public class finaltest {
    			rise.put(kg.get(z), riserate);
    		}
    		System.out.println("增长率 "+rise);
-   	
-
+   		writeexl(conceptsrate_o,kgrate,rise);
+ 
 //     System.out.println("12345"+testrenew.toString());
 
 //     renew.renew(testrenew, conceptsrate);
     }
+    public static void writeexl(Map<String,Double>conceptsrate_o,Map<String,Double>kgrate,HashMap<String,Double>rise)
+	{
+    	if(conceptsrate_o == null||kgrate==null){  
+            return;  
+        }  
+        HSSFWorkbook wb = new HSSFWorkbook();  
+        HSSFSheet sheet = wb.createSheet("sheet1");  
+        HSSFRow row = sheet.createRow(0);
+        HSSFRow row2 = sheet.createRow(1);
+        HSSFRow row3 = sheet.createRow(2);
+        List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(conceptsrate_o.entrySet());  
+        List<Entry<String, Double>> list2 = new ArrayList<Entry<String, Double>>(kgrate.entrySet());  
+        List<Entry<String, Double>> list3 = new ArrayList<Entry<String, Double>>(rise.entrySet());  
+        int j=0;
+        for (Entry<String, Double> e: list) {  
+	        HSSFCell cell = row.createCell(j);
+            cell.setCellValue(e.getValue());  
+            j++;
+            //System.out.print(cell.get);
+        }  
+        j=0;
+        for (Entry<String, Double> e2: list2) {  
+	        HSSFCell cell = row2.createCell(j);
+            cell.setCellValue(e2.getValue());  
+            j++;
+        }  
+        j=0;
+        for (Entry<String, Double> e3: list3) {  
+	        HSSFCell cell = row3.createCell(j);
+            cell.setCellValue(e3.getValue());  
+            j++;
+        }  
+         
+        ByteArrayOutputStream os = new ByteArrayOutputStream();  
+        try  
+        {  
+            wb.write(os);  
+        } catch (IOException e){  
+            e.printStackTrace();  
+        }  
+        byte[] content = os.toByteArray();  
+        File file = new File("E:/知识图谱推荐/全部实验结果/增长/增长率1333.xlsx");//Excel文件生成后存储的位置。  
+        OutputStream fos  = null;  
+        try  
+        {  
+            fos = new FileOutputStream(file);  
+            wb.write(fos);  
+            os.close();  
+            fos.close();  
+        }catch (Exception e){  
+            e.printStackTrace();  
+        }             
+	}
     private static Map<String,Double> ss(Map<String,Double>c)
     {
     	  List<Entry<String, Double>> list3 = new ArrayList<Entry<String,Double>>(c.entrySet());
@@ -209,14 +269,14 @@ public class finaltest {
     }
 	private static void Testnewdata(String[] attrNames, Object decisionTree) throws FileNotFoundException {
 		//读入测试集
-		 File file = new File("E:/知识图谱推荐/实验结果/1339"); 
+		 File file = new File("E:/知识图谱推荐/实验结果/1333"); 
 		 String[] flist = file.list();
 		int correct=0;
 		 HashMap<String, Map<String, Integer>> allNormalTF = new HashMap<String, Map<String,Integer>>();
 		 for(int j=0;j<flist.length;j++)
 		 {
 			 correct=0;
-			  String filename="E:/知识图谱推荐/实验结果/1339/" + flist[j];
+			  String filename="E:/知识图谱推荐/实验结果/1333/" + flist[j];
 			  filenames[j]=flist[j];
 			  System.out.println(filename);
 		      Object[][] TestData=gettestdata(filename);
@@ -250,6 +310,7 @@ public class finaltest {
 		
 		 recommends(0,correctrate);
 	}
+	
 	public static double avgcorrect(double correctrate[])
 	{
 		double sum=0;
